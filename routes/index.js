@@ -30,5 +30,20 @@ router.get('/new-movies', function (req, res, next) {
   res.json(titleMovies);
 });
 
+router.post('/wishlist-movie', async function (req, res, next) {
+
+  const addMovieWishlist = new wishlistModel({
+    movieName: req.body.name,
+    movieImg: req.body.img,
+  });
+
+  const movieAdded = await addMovieWishlist.save()
+  // console.log(movieAdded._id)
+  // console.log(typeof movieAdded._id)
+  // console.log(movieAdded._id.length)
+  const message = movieAdded._id !== undefined ? true : false
+  res.json({ message });
+});
+
 module.exports = router;
 
