@@ -37,7 +37,7 @@ router.post('/wishlist-movie', async function (req, res, next) {
   });
 
   const movieAdded = await addMovieWishlist.save()
-  
+
   const message = movieAdded.movieName === req.body.name ? true : false
   res.json({ message });
 });
@@ -58,6 +58,13 @@ router.delete('/wishlist-movie/:name', async function (req, res, next) {
 
   const message = deleteMovieWishlist.deletedCount === 1 ? true : false
   res.json({ message });
+})
+
+router.get('/wishlist-movie', async function (req, res, next) {
+
+  var movies = await wishlistModel.find()
+
+  res.json({ movies });
 })
 
 module.exports = router;
