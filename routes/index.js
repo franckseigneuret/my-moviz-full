@@ -18,7 +18,13 @@ router.get('/new-movies', function(req, res, next) {
 
   const result = request("GET", moviesURL)
   const resultJSON = JSON.parse(result.body)
-  res.json(resultJSON);
+  const titleMovies = []
+  
+  resultJSON.results.forEach(element => {
+    titleMovies.push(element.original_title)
+  });
+
+  res.json(titleMovies);
 });
 
 module.exports = router;
