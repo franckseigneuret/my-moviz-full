@@ -42,4 +42,22 @@ router.post('/wishlist-movie', async function (req, res, next) {
   res.json({ message });
 });
 
+router.delete('/wishlist-movie', async function (req, res, next) {
+  const deleteMovieWishlist = await wishlistModel.deleteOne({
+    movieName: req.body.name,
+  });
+
+  const message = deleteMovieWishlist.deletedCount === 1 ? true : false
+  res.json({ message });
+})
+
+router.delete('/wishlist-movie/:name', async function (req, res, next) {
+  const deleteMovieWishlist = await wishlistModel.deleteOne({
+    movieName: req.params.name,
+  });
+
+  const message = deleteMovieWishlist.deletedCount === 1 ? true : false
+  res.json({ message });
+})
+
 module.exports = router;
