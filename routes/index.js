@@ -15,23 +15,27 @@ const moviesURL = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  console.log('where : GET /')
   res.render('index', { title: 'Express' });
 });
 
 router.get('/new-movies', function (req, res, next) {
+  console.log('where : GET /new-movies')
   const result = request("GET", moviesURL)
   const resultJSON = JSON.parse(result.body)
   const titleMovies = []
-
+  
   resultJSON.results.forEach(element => {
-    titleMovies.push(element.original_title)
+    titleMovies.push(element)
   });
-
+  
+  console.log('titleMovies', titleMovies);
   res.json(titleMovies);
 });
 
 // ajoute un film en DB
 router.post('/wishlist-movie', async function (req, res, next) {
+  console.log('where : POST /wishlist-movie')
   const addMovieWishlist = new movieModel({
     name: req.body.name,
     img: req.body.img,
@@ -40,33 +44,36 @@ router.post('/wishlist-movie', async function (req, res, next) {
     vue: req.body.vue,
     desc: req.body.desc,
   });
-
+  
   const movieAdded = await addMovieWishlist.save()
-
+  
   const message = movieAdded.name === req.body.name ? true : false
   res.json({ message });
 });
 
 router.delete('/wishlist-movie', async function (req, res, next) {
+  console.log('where : DELETE /wishlist-movie')
   const deleteMovieWishlist = await movieModel.deleteOne({
     movieName: req.body.name,
   });
-
+  
   const message = deleteMovieWishlist.deletedCount === 1 ? true : false
   res.json({ message });
 })
 
 router.delete('/wishlist-movie/:name', async function (req, res, next) {
+  console.log('where : DELETE /wishlist-movie:name')
   const deleteMovieWishlist = await movieModel.deleteOne({
     movieName: req.params.name,
   });
-
+  
   const message = deleteMovieWishlist.deletedCount === 1 ? true : false
   res.json({ message });
 })
 
 // retourne les films de la DB
 router.get('/wishlist-movie', async function (req, res, next) {
+  console.log('where : GET /wishlist-movie')
 
   var movies = await movieModel.find()
 

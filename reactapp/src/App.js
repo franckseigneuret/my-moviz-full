@@ -13,9 +13,22 @@ const App = (props) => {
 
   useEffect(() => {
     const loadData = async () => {
-      var rawResponse = await fetch('/wishlist-movie');
+      var rawResponse = await fetch('/new-movies');
       var response = await rawResponse.json();
-      setMovieList(response.movies)
+
+      let formatResponse = []
+      response.forEach(element => {
+        let desc = element.overview.length > 80 ? element.overview.slice(0, 80)+'...' : element.overview
+        formatResponse.push({
+          name: element.title,
+          desc,
+          img: 'https://image.tmdb.org/t/p/w500/'+element.backdrop_path,
+          note: element.popularity,
+          vote: element.vote_count,
+          vue: 0,
+        })
+      });
+      setMovieList(formatResponse)
     }
     loadData()
   }, [])
