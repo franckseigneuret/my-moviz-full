@@ -5,16 +5,17 @@ import './App.css'
 import Movie from './components/Movie'
 import NavBar from './components/NavBar'
 
-import moviesDatas from './moviesDatas'
+// import moviesDatas from './moviesDatas'
 
 const App = (props) => {
   const [wishlist, setWishList] = useState([]) // wishList = tableau de noms de film
+  const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
       var rawResponse = await fetch('/wishlist-movie');
       var response = await rawResponse.json();
-      console.log(response)
+      setMovieList(response.movies)
     }
     loadData()
   }, [])
@@ -32,7 +33,7 @@ const App = (props) => {
     setWishList(wishlist.filter(item => item.name !== name))
   }
 
-  const moviesComponent = moviesDatas.map((movie, i) => {
+  const moviesComponent = movieList.map((movie, i) => {
     const isWished = wishlist.findIndex(item => item.name === movie.name) >= 0 ? true : false
     return <Movie key={i} isWished={isWished} datas={movie} handleCountMovie={checkMovieWished} />
   })
