@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 var movieSchema = mongoose.Schema({
   name: String,
-  note: String,
-  vote: String,
-  vue: String,
-  description: String,
   img: String,
+  note: Number,
+  vote: Number,
+  vue: Number,
+  desc: String,
 });
 
 module.exports = mongoose.model('movie', movieSchema);

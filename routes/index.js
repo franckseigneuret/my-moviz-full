@@ -32,19 +32,23 @@ router.get('/new-movies', function (req, res, next) {
 
 // ajoute un film en DB
 router.post('/wishlist-movie', async function (req, res, next) {
-  const addMovieWishlist = new wishlistModel({
-    movieName: req.body.name,
-    movieImg: req.body.img,
+  const addMovieWishlist = new movieModel({
+    name: req.body.name,
+    img: req.body.img,
+    note: req.body.note,
+    vote: req.body.vote,
+    vue: req.body.vue,
+    desc: req.body.desc,
   });
 
   const movieAdded = await addMovieWishlist.save()
 
-  const message = movieAdded.movieName === req.body.name ? true : false
+  const message = movieAdded.name === req.body.name ? true : false
   res.json({ message });
 });
 
 router.delete('/wishlist-movie', async function (req, res, next) {
-  const deleteMovieWishlist = await wishlistModel.deleteOne({
+  const deleteMovieWishlist = await movieModel.deleteOne({
     movieName: req.body.name,
   });
 
@@ -53,7 +57,7 @@ router.delete('/wishlist-movie', async function (req, res, next) {
 })
 
 router.delete('/wishlist-movie/:name', async function (req, res, next) {
-  const deleteMovieWishlist = await wishlistModel.deleteOne({
+  const deleteMovieWishlist = await movieModel.deleteOne({
     movieName: req.params.name,
   });
 
@@ -64,7 +68,7 @@ router.delete('/wishlist-movie/:name', async function (req, res, next) {
 // retourne les films de la DB
 router.get('/wishlist-movie', async function (req, res, next) {
 
-  var movies = await wishlistModel.find()
+  var movies = await movieModel.find()
 
   res.json({ movies });
 })
