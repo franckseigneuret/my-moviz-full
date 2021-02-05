@@ -25,12 +25,7 @@ router.get('/new-movies', function (req, res, next) {
   const resultJSON = JSON.parse(result.body)
   const titleMovies = []
   
-  resultJSON.results.forEach(element => {
-    titleMovies.push(element)
-  });
-  
-  console.log('titleMovies', titleMovies);
-  res.json(titleMovies);
+  res.json(resultJSON.results);
 });
 
 // ajoute un film en DB

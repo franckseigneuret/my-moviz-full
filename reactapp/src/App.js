@@ -18,15 +18,16 @@ const App = (props) => {
 
       let formatResponse = []
       response.forEach(element => {
-        let desc = element.overview.length > 80 ? element.overview.slice(0, 80)+'...' : element.overview
-        formatResponse.push({
-          name: element.title,
-          desc,
-          img: 'https://image.tmdb.org/t/p/w500/'+element.backdrop_path,
-          note: element.popularity,
-          vote: element.vote_count,
-          vue: 0,
-        })
+        let desc = element.overview.length > 80 ? element.overview.slice(0, 80) + '...' : element.overview
+        let img = element.backdrop_path.length > 0 ? 'https://image.tmdb.org/t/p/w500/' + element.backdrop_path : '/generique.jpg'
+          formatResponse.push({
+            name: element.title,
+            desc,
+            img,
+            note: element.popularity,
+            vote: element.vote_count,
+            vue: 0,
+          })
       });
       setMovieList(formatResponse)
     }
