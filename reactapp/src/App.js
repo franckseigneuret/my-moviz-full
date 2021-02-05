@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row } from 'reactstrap'
 import './App.css'
 
@@ -10,9 +10,18 @@ import moviesDatas from './moviesDatas'
 const App = (props) => {
   const [wishlist, setWishList] = useState([]) // wishList = tableau de noms de film
 
+  useEffect(() => {
+    const loadData = async () => {
+      var rawResponse = await fetch('/wishlist-movie');
+      var response = await rawResponse.json();
+      console.log(response)
+    }
+    loadData()
+  }, [])
+
   const checkMovieWished = (isWished, name, img) => {
     if (isWished && wishlist.findIndex(item => item.name === name) < 0) { // si on LIKE un film et que wishList ne le contient pas 
-      setWishList([...wishlist, {name: name, img: img}])          // on AJOUTE ce film dans la wishList
+      setWishList([...wishlist, { name: name, img: img }])          // on AJOUTE ce film dans la wishList
     } else if (!isWished && wishlist.findIndex(item => item.name === name) >= 0) {   // si on UN-like un film et que wishList le contient 
       setWishList(wishlist.filter(item => item.name !== name)) // on SUPPRIME ce film dans la wishList
     }

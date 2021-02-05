@@ -30,6 +30,7 @@ router.get('/new-movies', function (req, res, next) {
   res.json(titleMovies);
 });
 
+// ajoute un film en DB
 router.post('/wishlist-movie', async function (req, res, next) {
   const addMovieWishlist = new wishlistModel({
     movieName: req.body.name,
@@ -60,6 +61,7 @@ router.delete('/wishlist-movie/:name', async function (req, res, next) {
   res.json({ message });
 })
 
+// retourne les films de la DB
 router.get('/wishlist-movie', async function (req, res, next) {
 
   var movies = await wishlistModel.find()
