@@ -26,7 +26,7 @@ const App = (props) => {
             name: element.title,
             desc,
             img,
-            note: element.popularity,
+            note: element.vote_average,
             vote: element.vote_count,
             vue: 0,
           })
