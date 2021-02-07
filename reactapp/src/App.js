@@ -54,14 +54,19 @@ const App = (props) => {
 
     // si on UN-like un film et que wishList le contient 
     else if (!isWished && wishlist.findIndex(item => item.name === name) >= 0) {
-      // on SUPPRIME ce film dans la wishList
-      setWishList(wishlist.filter(item => item.name !== name))
+      handleClickDeleteMovie(name)
     }
   }
 
-  // Suppression film de la wishList au clic poubelle
-  const handleClickDeleteMovie = (name) => {
+  // Suppression film de la wishList (au clic poubelle ou du unlike movie)
+  const handleClickDeleteMovie = async (name) => {
+    // on SUPPRIME ce film dans la wishList
     setWishList(wishlist.filter(item => item.name !== name))
+    // et
+    // on fetch pour sa suppression en DB
+    await fetch(`/wishlist-movie/${name}`, {
+      method: 'DELETE',
+    })
   }
 
   const moviesComponent = movieList.map((movie, i) => {

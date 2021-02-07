@@ -43,20 +43,23 @@ router.post('/wishlist-movie', async function (req, res, next) {
   res.json({ message });
 });
 
+// supprime un film en DB (syntaxe 1)
 router.delete('/wishlist-movie', async function (req, res, next) {
   console.log('where : DELETE /wishlist-movie')
   const deleteMovieWishlist = await movieModel.deleteOne({
-    movieName: req.body.name,
+    name: req.body.name,
   });
   
   const message = deleteMovieWishlist.deletedCount === 1 ? true : false
   res.json({ message });
 })
 
+// supprime un film en DB (syntaxe 2)
+// deleteMany utilisé plutôt que deleteOne pour des raisons de DEV
 router.delete('/wishlist-movie/:name', async function (req, res, next) {
   console.log('where : DELETE /wishlist-movie:name')
-  const deleteMovieWishlist = await movieModel.deleteOne({
-    movieName: req.params.name,
+  const deleteMovieWishlist = await movieModel.deleteMany({
+    name: req.params.name,
   });
   
   const message = deleteMovieWishlist.deletedCount === 1 ? true : false
