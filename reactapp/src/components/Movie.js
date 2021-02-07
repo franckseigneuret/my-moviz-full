@@ -100,7 +100,7 @@ const Movie = (props) => {
             </ButtonGroup>
           </div>
           <div>
-            Moyenne <Average note={averageCalcul()} /> ({averageCalcul()} - {nbVote} votes)
+            Moyenne <Average note={averageCalcul()} /> ({nbVote} vote{nbVote > 1 ? 's' : ''})
           </div>
           <CardTitle tag="h5">{name}</CardTitle>
           <CardText>{desc}</CardText>
