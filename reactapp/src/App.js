@@ -34,6 +34,14 @@ const App = (props) => {
       setMovieList(formatResponse)
     }
     loadData()
+
+    // fetch de wishlist-movie pour récupérer les films likés en DB
+    const loadWishlist = async () => {
+      const rawResponse = await fetch('/wishlist-movie')
+      const response = await rawResponse.json();
+      setWishList(response.movies)
+    }
+    loadWishlist()
   }, [])
 
   const handleAddMovieToWishlist = async (isWished, name, img) => {
@@ -69,6 +77,7 @@ const App = (props) => {
     })
   }
 
+  // parsing de la liste des films récupérée de l'API pour afficher les fiches de ces films
   const moviesComponent = movieList.map((movie, i) => {
     const isWished = wishlist.findIndex(item => item.name === movie.name) >= 0 ? true : false
     return <Movie key={i} isWished={isWished} datas={movie} handleCountMovie={handleAddMovieToWishlist} />
