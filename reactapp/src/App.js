@@ -12,6 +12,8 @@ const App = (props) => {
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
+    // Au chargement de la page
+    // fetch de new-movies qui fait une request de l'API themoviedb
     const loadData = async () => {
       var rawResponse = await fetch('/new-movies');
       var response = await rawResponse.json();
@@ -34,11 +36,24 @@ const App = (props) => {
     loadData()
   }, [])
 
-  const checkMovieWished = (isWished, name, img) => {
-    if (isWished && wishlist.findIndex(item => item.name === name) < 0) { // si on LIKE un film et que wishList ne le contient pas 
-      setWishList([...wishlist, { name: name, img: img }])          // on AJOUTE ce film dans la wishList
-    } else if (!isWished && wishlist.findIndex(item => item.name === name) >= 0) {   // si on UN-like un film et que wishList le contient 
-      setWishList(wishlist.filter(item => item.name !== name)) // on SUPPRIME ce film dans la wishList
+  const handleAddMovieToWishlist = async (isWished, name, img) => {
+    // si on LIKE un film et que wishList ne le contient pas 
+    if (isWished && wishlist.findIndex(item => item.name === name) < 0) {
+      // on AJOUTE ce film dans la wishList
+      setWishList([...wishlist, { name: name, img: img }])
+      // et 
+      // on fetch pour l'enregistrement en DB
+      await fetch('/wishlist-movie', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${name}&img=${img}`
+      })
+    }
+
+    // si on UN-like un film et que wishList le contient 
+    else if (!isWished && wishlist.findIndex(item => item.name === name) >= 0) {
+      // on SUPPRIME ce film dans la wishList
+      setWishList(wishlist.filter(item => item.name !== name))
     }
   }
 
@@ -49,7 +64,7 @@ const App = (props) => {
 
   const moviesComponent = movieList.map((movie, i) => {
     const isWished = wishlist.findIndex(item => item.name === movie.name) >= 0 ? true : false
-    return <Movie key={i} isWished={isWished} datas={movie} handleCountMovie={checkMovieWished} />
+    return <Movie key={i} isWished={isWished} datas={movie} handleCountMovie={handleAddMovieToWishlist} />
   })
 
   return (

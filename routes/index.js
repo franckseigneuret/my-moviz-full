@@ -11,7 +11,6 @@ const language = 'fr-FR'
 const sort = 'popularity.desc'
 const page = 1
 
-const moviesURL = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=${language}&sort_by=${sort}&include_adult=false&include_video=false&page=${page}`
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -21,9 +20,9 @@ router.get('/', function (req, res, next) {
 
 router.get('/new-movies', function (req, res, next) {
   console.log('where : GET /new-movies')
+  const moviesURL = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&language=${language}&sort_by=${sort}&include_adult=false&include_video=false&page=${page}`
   const result = request("GET", moviesURL)
   const resultJSON = JSON.parse(result.body)
-  const titleMovies = []
   
   res.json(resultJSON.results);
 });
@@ -34,15 +33,13 @@ router.post('/wishlist-movie', async function (req, res, next) {
   const addMovieWishlist = new movieModel({
     name: req.body.name,
     img: req.body.img,
-    note: req.body.note,
-    vote: req.body.vote,
-    vue: req.body.vue,
-    desc: req.body.desc,
+    date: new Date(),
   });
   
   const movieAdded = await addMovieWishlist.save()
   
   const message = movieAdded.name === req.body.name ? true : false
+  console.log('message = ', message)
   res.json({ message });
 });
 
