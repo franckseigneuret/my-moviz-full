@@ -48,6 +48,8 @@ const App = (props) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `name=${name}&img=${img}`
       })
+      // @TODO si erreur enregistrement DB : enlever le film de la wishlist
+      // .catch((error)=> console.log(error))
     }
 
     // si on UN-like un film et que wishList le contient 
